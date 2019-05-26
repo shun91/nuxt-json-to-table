@@ -21,17 +21,23 @@
  * 年齢別の推定ユーザー数を json で返す。件数はランダム
  */
 function getJson() {
-  const ages = Array.from(
-    new Set(
-      new Array(parseInt(Math.random() * 100))
-        .fill(null)
-        .map(() => parseInt(Math.random() * 100))
-    )
-  )
-  return ages.map(age => ({
-    age,
-    users: Math.random() * 10000
-  }))
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const ages = Array.from(
+        new Set(
+          new Array(parseInt(Math.random() * 100))
+            .fill(null)
+            .map(() => parseInt(Math.random() * 100))
+        )
+      )
+      resolve(
+        ages.map(age => ({
+          age,
+          users: Math.random() * 10000
+        }))
+      )
+    }, 1000) // 1秒後にに結果を返す
+  })
 }
 
 export default {
@@ -56,8 +62,8 @@ export default {
   },
 
   methods: {
-    fetch() {
-      this.items = getJson()
+    async fetch() {
+      this.items = await getJson()
     }
   }
 }
