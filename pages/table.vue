@@ -12,7 +12,9 @@
         </tr>
         <tr v-for="item in items" :key="item.age">
           <td>{{ item.age }}</td>
-          <td>{{ item.users | format }}</td>
+          <td :style="backgroundColor(item.users)">
+            {{ item.users | format }}
+          </td>
         </tr>
       </table>
     </template>
@@ -58,6 +60,10 @@ export default {
   computed: {
     length() {
       return this.items.length
+    },
+
+    max() {
+      return Math.max(...this.items.map(x => x.users))
     }
   },
 
@@ -70,6 +76,12 @@ export default {
       this.loading = true
       this.items = await getJson()
       this.loading = false
+    },
+
+    backgroundColor(n) {
+      const ratio = n / this.max
+      const backgroundColor = `rgba(0, 153, 181, ${ratio})`
+      return { backgroundColor }
     }
   }
 }
