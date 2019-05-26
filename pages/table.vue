@@ -2,9 +2,9 @@
   <div>
     <h1>table page</h1>
     <input v-model="valueName" />
-    <n-link :to="{ query: { valueName } }">
-      <button>fetch</button>
-    </n-link>
+    <link-button :to="{ query: { valueName } }">
+      fetch
+    </link-button>
     <div v-if="loading">Loading...</div>
     <template v-else>
       {{ length }}件 fetch しました
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import LinkButton from '~/components/LinkButton'
+
 /**
  * 年齢別の推定ユーザー数を json で返す。件数はランダム
  */
@@ -49,6 +51,8 @@ function getJson(valueName) {
 }
 
 export default {
+  components: { LinkButton },
+
   filters: {
     format(n) {
       return Math.round(n).toLocaleString()
