@@ -2,7 +2,9 @@
   <div>
     <h1>table page</h1>
     <input v-model="valueName" />
-    <button @click="fetch">fetch</button>
+    <n-link :to="{ query: { valueName } }">
+      <button>fetch</button>
+    </n-link>
     <div v-if="loading">Loading...</div>
     <template v-else>
       {{ length }}件 fetch しました
@@ -56,7 +58,7 @@ export default {
   data: () => ({
     items: [],
     loading: false,
-    valueName: 'users'
+    valueName: ''
   }),
 
   computed: {
@@ -70,6 +72,7 @@ export default {
   },
 
   created() {
+    this.valueName = this.$route.query.valueName || 'users'
     this.fetch(this.valueName)
   },
 
@@ -85,6 +88,8 @@ export default {
       const backgroundColor = `rgba(0, 153, 181, ${ratio})`
       return { backgroundColor }
     }
-  }
+  },
+
+  watchQuery: ['valueName']
 }
 </script>
