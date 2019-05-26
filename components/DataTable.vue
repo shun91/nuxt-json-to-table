@@ -15,12 +15,6 @@
 
 <script>
 export default {
-  filters: {
-    format(n) {
-      return Math.round(n).toLocaleString()
-    }
-  },
-
   props: {
     valueName: { type: String, required: true },
     items: { type: Array, required: true }
