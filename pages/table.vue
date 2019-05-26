@@ -2,6 +2,7 @@
   <div>
     <h1>table page</h1>
     <button @click="fetch">fetch</button>
+    {{ length }}件 fetch しました
     <table border="1">
       <tr>
         <th>年齢</th>
@@ -37,6 +38,12 @@ export default {
   data: () => ({
     items: []
   }),
+
+  computed: {
+    length() {
+      return this.items.length
+    }
+  },
 
   methods: {
     fetch() {
