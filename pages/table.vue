@@ -10,7 +10,7 @@
       </tr>
       <tr v-for="item in items" :key="item.age">
         <td>{{ item.age }}</td>
-        <td>{{ item.users }}</td>
+        <td>{{ item.users | format }}</td>
       </tr>
     </table>
   </div>
@@ -35,6 +35,12 @@ function getJson() {
 }
 
 export default {
+  filters: {
+    format(n) {
+      return Math.round(n).toLocaleString()
+    }
+  },
+
   data: () => ({
     items: []
   }),
