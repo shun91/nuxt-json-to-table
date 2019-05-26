@@ -45,6 +45,10 @@ export default {
     }
   },
 
+  created() {
+    this.fetch()
+  },
+
   methods: {
     fetch() {
       this.items = getJson()
