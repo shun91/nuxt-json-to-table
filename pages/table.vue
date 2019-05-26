@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>table page</h1>
+    <button @click="fetch">fetch</button>
+    <p>{{ items }}</p>
   </div>
 </template>
 
@@ -22,5 +24,15 @@ function getJson() {
   }))
 }
 
-export default {}
+export default {
+  data: () => ({
+    items: []
+  }),
+
+  methods: {
+    fetch() {
+      this.items = getJson()
+    }
+  }
+}
 </script>
