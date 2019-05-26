@@ -2,7 +2,16 @@
   <div>
     <h1>table page</h1>
     <button @click="fetch">fetch</button>
-    <p>{{ items }}</p>
+    <table border="1">
+      <tr>
+        <th>年齢</th>
+        <th>推定ユーザー数</th>
+      </tr>
+      <tr v-for="item in items" :key="item.age">
+        <td>{{ item.age }}</td>
+        <td>{{ item.users }}</td>
+      </tr>
+    </table>
   </div>
 </template>
 
