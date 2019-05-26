@@ -8,24 +8,14 @@
     <div v-if="loading">Loading...</div>
     <template v-else>
       {{ length }}件 fetch しました
-      <table border="1">
-        <tr>
-          <th>年齢</th>
-          <th>{{ valueName }}</th>
-        </tr>
-        <tr v-for="item in items" :key="item.age">
-          <td>{{ item.age }}</td>
-          <td :style="backgroundColor(item[valueName])">
-            {{ item[valueName] | format }}
-          </td>
-        </tr>
-      </table>
+      <data-table :value-name="valueName" :items="items" />
     </template>
   </div>
 </template>
 
 <script>
 import LinkButton from '~/components/LinkButton'
+import DataTable from '~/components/DataTable'
 
 /**
  * 年齢別の推定ユーザー数を json で返す。件数はランダム
@@ -51,13 +41,7 @@ function getJson(valueName) {
 }
 
 export default {
-  components: { LinkButton },
-
-  filters: {
-    format(n) {
-      return Math.round(n).toLocaleString()
-    }
-  },
+  components: { LinkButton, DataTable },
 
   data: () => ({
     items: [],
@@ -68,10 +52,6 @@ export default {
   computed: {
     length() {
       return this.items.length
-    },
-
-    max() {
-      return Math.max(...this.items.map(x => x[this.valueName]))
     }
   },
 
@@ -85,12 +65,6 @@ export default {
       this.loading = true
       this.items = await getJson(this.valueName)
       this.loading = false
-    },
-
-    backgroundColor(n) {
-      const ratio = n / this.max
-      const backgroundColor = `rgba(0, 153, 181, ${ratio})`
-      return { backgroundColor }
     }
   },
 
