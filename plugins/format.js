@@ -4,4 +4,4 @@ function format(n) {
   return Math.round(n).toLocaleString()
 }
 
-Vue.filter('format', format)
+Vue.filter('format', format) // test
