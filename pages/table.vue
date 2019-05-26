@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>table page</h1>
+    <input v-model="valueName" />
     <button @click="fetch">fetch</button>
     <div v-if="loading">Loading...</div>
     <template v-else>
@@ -8,12 +9,12 @@
       <table border="1">
         <tr>
           <th>年齢</th>
-          <th>推定ユーザー数</th>
+          <th>{{ valueName }}</th>
         </tr>
         <tr v-for="item in items" :key="item.age">
           <td>{{ item.age }}</td>
-          <td :style="backgroundColor(item.users)">
-            {{ item.users | format }}
+          <td :style="backgroundColor(item[valueName])">
+            {{ item[valueName] | format }}
           </td>
         </tr>
       </table>
@@ -25,7 +26,7 @@
 /**
  * 年齢別の推定ユーザー数を json で返す。件数はランダム
  */
-function getJson() {
+function getJson(valueName) {
   return new Promise(resolve => {
     setTimeout(() => {
       const ages = Array.from(
@@ -38,7 +39,7 @@ function getJson() {
       resolve(
         ages.map(age => ({
           age,
-          users: Math.random() * 10000
+          [valueName]: Math.random() * 10000
         }))
       )
     }, 1000) // 1秒後にに結果を返す
@@ -54,7 +55,8 @@ export default {
 
   data: () => ({
     items: [],
-    loading: false
+    loading: false,
+    valueName: 'users'
   }),
 
   computed: {
@@ -63,18 +65,18 @@ export default {
     },
 
     max() {
-      return Math.max(...this.items.map(x => x.users))
+      return Math.max(...this.items.map(x => x[this.valueName]))
     }
   },
 
   created() {
-    this.fetch()
+    this.fetch(this.valueName)
   },
 
   methods: {
     async fetch() {
       this.loading = true
-      this.items = await getJson()
+      this.items = await getJson(this.valueName)
       this.loading = false
     },
 
